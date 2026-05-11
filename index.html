@@ -46,7 +46,7 @@
 
 <div class="container">
     <h2 style="color: var(--geo-blue); margin-bottom: 5px;">📍 Simulador G&H</h2>
-    <p style="margin-top: 0; color: #64748b; font-size: 0.9rem;">Debate para el Máster de Profesorado</p>
+    <p style="margin-top: 0; color: #64748b; font-size: 0.9rem;">Mazo de 16 situaciones docentes (Geografía e Historia)</p>
 
     <div class="card-container" onclick="flipCard()">
         <div class="card-inner" id="card-inner">
@@ -55,45 +55,43 @@
                 <p>Toca para revelar el dilema</p>
             </div>
             <div class="card-face card-front" id="card-content">
-                <!-- Se llena con JS -->
-            </div>
+                </div>
         </div>
     </div>
 
     <button onclick="drawCard()">🎲 SIGUIENTE CONFLICTO</button>
-    <div class="counter">Mazo de <span id="total-cards">0</span> situaciones</div>
+    <div class="counter">Un mazo completo para el debate pedagógico</div>
 </div>
 
 <script>
+    // Unificando los 16 conflictos (anteriores + nuevos sobre metodologías activas)
     const conflicts = [
-        // 1-6 Situaciones anteriores
-        { cat: "PADRES", text: "Un grupo de padres denuncia que 'adoctrinas' al explicar la represión en la dictadura. Exigen neutralidad absoluta.", img: "https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?auto=format&fit=crop&w=500" },
-        { cat: "COLEGAS", text: "En el departamento, un profesor veterano critica tus Situaciones de Aprendizaje: dice que 'dibujar mapas no es estudiar'.", img: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=500" },
-        { cat: "ALUMNOS", text: "Durante un debate de Geografía Humana, un alumno usa discursos de odio detectados en redes. El aula se bloquea.", img: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=500" },
-        { cat: "JEFATURA", text: "La jefa de estudios te pide que reduzcas el trabajo cooperativo porque el ruido molesta a la clase de latín de al lado.", img: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=500" },
-        { cat: "EVALUACIÓN", text: "Los padres se quejan de que no haces exámenes de 10 preguntas. No entienden las rúbricas de tus proyectos.", img: "https://images.unsplash.com/photo-1454165833767-027ffea9e77b?auto=format&fit=crop&w=500" },
-        { cat: "DIVERSIDAD", text: "Alumnos de alto rendimiento se quejan de que el ABP les obliga a trabajar con compañeros 'más lentos'.", img: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=500" },
+        // 1-6 Situaciones anteriores (asociación imagen-pregunta directa)
+        { cat: "PADRES vs INNOVACIÓN", text: "Un grupo de padres denuncia que 'adoctrinas' al explicar la represión en la dictadura. Exigen neutralidad absoluta en Historia.", img: "https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?auto=format&fit=crop&w=500" },
+        { cat: "CONFLICTO DEPARTAMENTO", text: "En la reunión de departamento, un profesor veterano critica tus Situaciones de Aprendizaje: dice que 'dibujar mapas no es estudiar'.", img: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=500" },
+        { cat: "GESTIÓN DE AULA", text: "Durante un debate de Geografía Humana, un alumno usa discursos de odio detectados en redes sociales. El resto del aula se bloquea.", img: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=500" },
+        { cat: "METODOLOGÍA ACTIVA", text: "La jefa de estudios te pide que reduzcas el trabajo cooperativo porque el ruido molesta a la clase de latín de al lado.", img: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=500" },
+        { cat: "EVALUACIÓN LOMLOE", text: "Los padres se quejan de que no haces exámenes de 10 preguntas. No entienden las rúbricas de tus proyectos de investigación.", img: "https://images.unsplash.com/photo-1454165833767-027ffea9e77b?auto=format&fit=crop&w=500" },
+        { cat: "DIVERSIDAD en ABP", text: "El alumnado de alto rendimiento se queja de que el ABP de Historia Medieval les obliga a trabajar con alumnos 'más lentos'.", img: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=500" },
         
-        // 7-16 Nuevas situaciones
-        { cat: "DIDÁCTICA", text: "Un alumno cuestiona por qué debe estudiar arte del Renacimiento si 'está en Google'. Se niega a analizar las obras.", img: "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?auto=format&fit=crop&w=500" },
-        { cat: "TICs", text: "Al usar Google Earth para urbanismo, detectas que varios alumnos están jugando a minijuegos en otra pestaña.", img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=500" },
-        { cat: "ADAPTACIONES", text: "Un alumno con adaptación curricular saca mejor nota que el 'brillante'. Este último reclama que es injusto.", img: "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?auto=format&fit=crop&w=500" },
-        { cat: "DIDÁCTICA", text: "Planteas un juego de rol sobre la Revolución Francesa y la clase empieza a simular ejecuciones violentas.", img: "https://images.unsplash.com/photo-1533134486753-c833f0ed4866?auto=format&fit=crop&w=500" },
-        { cat: "FAMILIAS", text: "Un padre exige por iPasen que envíes apuntes en PDF porque su hija no sabe qué estudiar de la Situación de Aprendizaje.", img: "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&w=500" },
-        { cat: "INCLUSIÓN", text: "Un alumno con TEA se angustia por el ruido del trabajo grupal. El resto se siente limitado por no poder hablar.", img: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=500" },
-        { cat: "PATRIMONIO", text: "En una salida al centro histórico, un grupo se escapa a comprar comida sin permiso, rompiendo el protocolo.", img: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=500" },
-        { cat: "ÉTICA", text: "Un compañero te sugiere 'inflar' las notas de 2º de Bachillerato para que el centro no pierda prestigio en Selectividad.", img: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=500" },
-        { cat: "RECURSOS", text: "El centro bloquea YouTube y no puedes proyectar el documental base para explicar el Imperialismo.", img: "https://images.unsplash.com/photo-1594322436404-5a0526db4d13?auto=format&fit=crop&w=500" },
-        { cat: "CLIMA", text: "Circula un meme burlón sobre ti en el grupo de WhatsApp de la clase y un alumno te lo muestra.", img: "https://images.unsplash.com/photo-1551817958-c5b5d1b75a2f?auto=format&fit=crop&w=500" }
+        // 7-16 Nuevas situaciones (enfoque didáctica y gestión)
+        { cat: "DIDÁCTICA G&H", text: "Un alumno cuestiona por qué debe estudiar el arte del Renacimiento si 'está en Google'. Se niega a realizar el análisis iconográfico.", img: "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?auto=format&fit=crop&w=500" },
+        { cat: "TICs en Urbanismo", text: "Al usar Google Earth para una práctica de urbanismo, detectas que varios alumnos están jugando a minijuegos en otra pestaña.", img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=500" },
+        { cat: "EVALUACIÓN INCLUSIVA", text: "Un alumno con una adaptación curricular no significativa saca mejor nota que el 'brillante' del grupo. El alumno brillante reclama injusticia.", img: "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?auto=format&fit=crop&w=500" },
+        { cat: "DIDÁCTICA G&H", text: "Planteas un juego de rol sobre la Revolución Francesa y la clase se descontrola: algunos alumnos empiezan a simular ejecuciones violentas.", img: "https://images.unsplash.com/photo-1533134486753-c833f0ed4866?auto=format&fit=crop&w=500" },
+        { cat: "FAMILIAS y SA", text: "Un padre te escribe por iPasen exigiendo que le envíes por PDF todos los apuntes porque su hija no sabe qué estudiar de la Situación de Aprendizaje.", img: "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&w=500" },
+        { cat: "INCLUSIÓN vs GRUPO", text: "Tienes un alumno con TEA que se angustia con el ruido del trabajo cooperativo. El resto del grupo se siente limitado por tener que estar en silencio.", img: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=500" },
+        { cat: "PATRIMONIO y SEGURIDAD", text: "Durante una salida al centro histórico, un grupo de alumnos se separa para ir a comprar comida sin permiso, rompiendo el protocolo de seguridad.", img: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=500" },
+        { cat: "ÉTICA DOCENTE", text: "Un compañero te sugiere 'inflar' las notas de 2º de Bachillerato para que el centro no pierda prestigio en la PEvAU.", img: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=500" },
+        { cat: "RECURSOS BLOCKED", text: "El centro tiene bloqueado YouTube y no puedes proyectar el documental que era la base de tu sesión sobre el Imperialismo.", img: "https://images.unsplash.com/photo-1594322436404-5a0526db4d13?auto=format&fit=crop&w=500" },
+        { cat: "CLIMA DE AULA", text: "Después de un examen difícil, circula un meme sobre ti en el grupo de WhatsApp de la clase y un alumno te lo muestra.", img: "https://images.unsplash.com/photo-1551817958-c5b5d1b75a2f?auto=format&fit=crop&w=500" }
     ];
-
-    document.getElementById('total-cards').innerText = conflicts.length;
 
     function drawCard() {
         const inner = document.getElementById('card-inner');
         const content = document.getElementById('card-content');
         
-        // Efecto visual: primero volvemos al reverso
+        // Quitar la vuelta para mostrar el reverso mientras cargamos
         inner.classList.remove('is-flipped');
         
         setTimeout(() => {
@@ -103,7 +101,7 @@
                 <div class="card-body">
                     <span class="badge">${card.cat}</span>
                     <p class="conflict-text">"${card.text}"</p>
-                    <div class="footer">¿Cómo lo resolverías según la LOMLOE?</div>
+                    <div class="footer">¿Cómo actuarías profesionalmente?</div>
                 </div>
             `;
             inner.classList.add('is-flipped');
@@ -114,7 +112,7 @@
         document.getElementById('card-inner').classList.toggle('is-flipped');
     }
 
-    // Mostrar una carta al cargar la página
+    // Iniciar con la primera carta
     window.onload = drawCard;
 </script>
 
