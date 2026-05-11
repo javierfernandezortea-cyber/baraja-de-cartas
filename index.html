@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador G+H: Dilemas Críticos</title>
+    <title>Simulador Crítico G+H: 50 Dilemas Docentes</title>
     <style>
-        :root { --geo-blue: #1e40af; --hist-gold: #b45309; --bg: #f8fafc; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
-        .container { max-width: 400px; width: 100%; text-align: center; }
+        :root { --geo-blue: #1e3a8a; --hist-gold: #92400e; --bg: #f1f5f9; --accent: #ef4444; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+        .container { max-width: 450px; width: 100%; text-align: center; }
 
         /* Tarjeta */
-        .card-container { perspective: 1000px; margin: 20px auto; cursor: pointer; }
+        .card-container { perspective: 1000px; margin: 15px auto; cursor: pointer; }
         .card-inner {
-            width: 320px; height: 530px; position: relative;
+            width: 340px; height: 550px; position: relative;
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d; margin: 0 auto;
         }
@@ -20,61 +20,103 @@
 
         .card-face {
             position: absolute; width: 100%; height: 100%;
-            backface-visibility: hidden; border-radius: 20px;
-            border: 6px solid #334155; overflow: hidden; background: white;
-            display: flex; flex-direction: column; box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            backface-visibility: hidden; border-radius: 24px;
+            border: 5px solid #1e293b; overflow: hidden; background: white;
+            display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.25);
         }
 
-        .card-back { background: var(--geo-blue); color: white; justify-content: center; align-items: center; }
+        .card-back { background: var(--geo-blue); color: white; justify-content: center; align-items: center; border-color: #0f172a; }
         .card-front { transform: rotateY(180deg); border-color: var(--hist-gold); }
 
-        .card-img { width: 100%; height: 230px; object-fit: cover; }
-        .card-body { padding: 18px; text-align: left; display: flex; flex-direction: column; flex-grow: 1; }
-        .badge { font-size: 0.7rem; font-weight: bold; padding: 4px 10px; border-radius: 6px; background: #fee2e2; color: #991b1b; align-self: flex-start; margin-bottom: 10px; text-transform: uppercase; }
-        .conflict-text { font-size: 0.95rem; line-height: 1.4; color: #1e293b; font-weight: 600; margin: 0; flex-grow: 1; }
-        .footer { margin-top: auto; font-size: 0.7rem; color: #64748b; font-style: italic; border-top: 1px solid #eee; padding-top: 8px; }
+        .card-img { width: 100%; height: 250px; object-fit: cover; }
+        .card-body { padding: 20px; text-align: left; display: flex; flex-direction: column; flex-grow: 1; background: #fff; }
+        .badge { font-size: 0.7rem; font-weight: 800; padding: 5px 12px; border-radius: 8px; background: #fee2e2; color: #991b1b; align-self: flex-start; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .conflict-text { font-size: 1rem; line-height: 1.5; color: #0f172a; font-weight: 600; margin: 0; flex-grow: 1; }
+        .footer { margin-top: auto; font-size: 0.75rem; color: #64748b; font-style: italic; border-top: 1px solid #f1f5f9; padding-top: 10px; display: flex; justify-content: space-between; }
 
-        button { background: var(--hist-gold); color: white; border: none; padding: 16px; border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .counter-box { margin-top: 15px; font-size: 0.85rem; color: #475569; font-weight: bold; }
+        button { background: var(--geo-blue); color: white; border: none; padding: 18px; border-radius: 15px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.1rem; transition: 0.2s; box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3); }
+        button:hover { background: #172554; transform: translateY(-2px); }
+        .counter-box { margin-bottom: 10px; font-size: 0.9rem; color: #475569; background: white; padding: 5px 15px; border-radius: 20px; display: inline-block; border: 1px solid #e2e8f0; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2 style="color: var(--geo-blue); margin-bottom: 5px;">📍 Dilemas Éticos G&H</h2>
-    <div class="counter-box">Cartas restantes: <span id="cards-left">0</span></div>
+    <h2 style="color: var(--geo-blue); margin-bottom: 5px;">📍 Simulador Máster G&H</h2>
+    <div class="counter-box">Dilemas por resolver: <span id="cards-left">0</span> / 50</div>
 
     <div class="card-container" onclick="flipCard()">
         <div class="card-inner" id="card-inner">
             <div class="card-face card-back">
-                <div style="font-size: 4rem;">⚖️</div>
-                <p>Revelar nuevo dilema</p>
+                <div style="font-size: 4.5rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">📜</div>
+                <p style="font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">Sacar Caso</p>
             </div>
             <div class="card-face card-front" id="card-content"></div>
         </div>
     </div>
 
-    <button onclick="drawCard()">🎲 SIGUIENTE CARTA (SIN REPETIR)</button>
+    <button onclick="drawCard()">🎲 SIGUIENTE DILEMA (SIN REPETIR)</button>
 </div>
 
 <script>
     const masterDeck = [
-        // --- ÉTICA Y EVALUACIÓN CRÍTICA (NUEVAS) ---
-        { cat: "ÉTICA PROFESIONAL", text: "Un alumno confiesa en una actividad de 'Historia Oral' una situación de maltrato familiar. ¿Cómo equilibras el deber de sigilo con el protocolo de protección?", img: "https://images.unsplash.com/photo-1573497620053-ea5310f94f17?auto=format&fit=crop&w=500" },
-        { cat: "EVALUACIÓN LOMLOE", text: "Un alumno suspende el examen de contenidos pero supera los criterios de evaluación mediante el producto final del ABP. ¿Qué prima en su nota final?", img: "https://images.unsplash.com/photo-1454165833767-027ffea9e77b?auto=format&fit=crop&w=500" },
-        { cat: "SESGO IDEOLÓGICO", text: "Al explicar el colonialismo, un grupo de alumnos te acusa de ser 'anti-occidental'. Los padres elevan una queja a inspección por falta de objetividad.", img: "https://images.unsplash.com/photo-1526367790999-0150786686a2?auto=format&fit=crop&w=500" },
-        { cat: "PLAGIO E IA", text: "Detectas que el 80% de un ensayo sobre la Revolución Industrial ha sido generado por IA. El alumno defiende que 'saber dar el prompt' es una competencia válida.", img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=500" },
-        { cat: "EVALUACIÓN DE PARES", text: "En una co-evaluación, los alumnos 'se ponen dieces' entre amigos y castigan a los compañeros con los que se llevan mal. ¿Cómo validas esa nota?", img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=500" },
-        { cat: "DIVERSIDAD CULTURAL", text: "Un alumno de origen extranjero se siente ofendido por cómo el libro de texto relata la Reconquista. Se genera un clima de tensión identitaria en el aula.", img: "https://images.unsplash.com/photo-1521791136364-798a7bc0d26e?auto=format&fit=crop&w=500" },
-        { cat: "IDENTIDAD PROFESIONAL", text: "Un compañero te dice que las Metodologías Activas son una 'estafa pedagógica' para bajar el nivel y que tú estás engañando a los alumnos.", img: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=500" },
-        { cat: "USO DE FUENTES", text: "Llevas a clase una fuente primaria polémica sobre la Guerra Civil. Un alumno graba la sesión y la sube a redes sociales fuera de contexto.", img: "https://images.unsplash.com/photo-1516251193007-45ef944ab0c6?auto=format&fit=crop&w=500" },
-        { cat: "MEMORIA DEMOCRÁTICA", text: "La dirección te sugiere 'pasar de puntillas' por temas de memoria histórica para evitar conflictos con familias influyentes del centro.", img: "https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=500" },
-        { cat: "CALIFICACIÓN ÉTICA", text: "Un alumno con comportamiento ejemplar y esfuerzo máximo no llega a los mínimos curriculares. El equipo docente te presiona para que le apruebes por 'actitud'.", img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=500" },
-        
-        // --- CASOS ANTERIORES (SE MANTIENEN) ---
-        { cat: "PADRES", text: "Se quejan de que en Historia no usan libro de texto, sino Situaciones de Aprendizaje. Dicen que así 'no estudian'.", img: "https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?auto=format&fit=crop&w=500" },
-        { cat: "COLEGAS", text: "Un veterano critica tus SA: dice que 'dibujar mapas no es estudiar'.", img: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=500" },
-        { cat: "ODIO", text: "En un debate sobre Geografía Humana, un alumno usa discursos de odio detectados en redes sociales.", img: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=500" }
+        // --- ÉTICA Y EVALUACIÓN (10) ---
+        { cat: "Ética", text: "Un alumno confiesa en un diario de clase que sufre bullying fuera del centro. Te pide por favor que no se lo digas a nadie.", img: "https://images.unsplash.com/photo-1516534775068-ba3e7458af70?auto=format&fit=crop&w=500" },
+        { cat: "Evaluación", text: "Un alumno con NEE aprueba por rúbrica pero su familia exige ver el 'examen tradicional' para comparar con el resto.", img: "https://images.unsplash.com/photo-1454165833767-027ffea9e77b?auto=format&fit=crop&w=500" },
+        { cat: "Ética", text: "Detectas que un compañero de departamento regala los aprobados a cambio de que los alumnos no den problemas.", img: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=500" },
+        { cat: "Evaluación", text: "Un alumno entrega un proyecto de Geografía impecable hecho por IA. Lo admite y dice que es 'productividad'.", img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=500" },
+        { cat: "Ética", text: "Recibes un regalo costoso de una familia justo antes de la evaluación final. ¿Cómo gestionas la situación?", img: "https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=500" },
+        { cat: "Evaluación", text: "En una co-evaluación, el grupo castiga con un cero a un alumno por motivos personales ajenos al trabajo académico.", img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=500" },
+        { cat: "Ética", text: "Un alumno brillante te pide que le subas la nota para entrar en Medicina, aunque no le corresponde por rúbrica.", img: "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?auto=format&fit=crop&w=500" },
+        { cat: "Evaluación", text: "La dirección te obliga a realizar una recuperación extraordinaria que no estaba en tu programación didáctica.", img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=500" },
+        { cat: "Ética", text: "Ves a un alumno copiando en el examen final. Es el hijo de un compañero profesor del centro.", img: "https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?auto=format&fit=crop&w=500" },
+        { cat: "Evaluación", text: "Evalúas por competencias una SA, pero el programa de gestión de notas del centro solo admite números de 0 a 10.", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=500" },
+
+        // --- DIDÁCTICA Y POLÉMICA G&H (15) ---
+        { cat: "Didáctica", text: "Al explicar el Holocausto, un alumno hace comentarios negacionistas basándose en un vídeo de TikTok.", img: "https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=500" },
+        { cat: "Didáctica", text: "Un padre exige que su hijo no asista a la clase sobre Evolución Humana por motivos religiosos.", img: "https://images.unsplash.com/photo-1493612276216-ee3925520721?auto=format&fit=crop&w=500" },
+        { cat: "Didáctica", text: "En Geografía Urbana, la salida por el barrio termina con quejas vecinales por el ruido del trabajo de campo.", img: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=500" },
+        { cat: "Polémica", text: "Llevas una bandera histórica a clase y te acusan de exaltación política en el grupo de padres.", img: "https://images.unsplash.com/photo-1532375811409-905420c33b8b?auto=format&fit=crop&w=500" },
+        { cat: "Didáctica", text: "Un alumno de origen marroquí rebate tu explicación sobre Al-Andalus citando la historia que aprendió en su país.", img: "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=500" },
+        { cat: "Polémica", text: "Explicas la Guerra Civil y un alumno te llama 'facha' y otro 'comunista' en la misma sesión.", img: "https://images.unsplash.com/photo-1526367790999-0150786686a2?auto=format&fit=crop&w=500" },
+        { cat: "Didáctica", text: "El departamento de Ciencias exige usar tus horas de Historia para una charla de salud ambiental no programada.", img: "https://images.unsplash.com/photo-1577891729319-f4871c674d41?auto=format&fit=crop&w=500" },
+        { cat: "Didáctica", text: "Proyectas un mapa del Sahara Occidental y se genera una disputa geopolítica real entre tus alumnos.", img: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=500" },
+        { cat: "Polémica", text: "Un alumno graba con el móvil tu explicación sobre el aborto o la eutanasia y la difunde en redes sociales.", img: "https://images.unsplash.com/photo-1516251193007-45ef944ab0c6?auto=format&fit=crop&w=500" },
+        { cat: "Didáctica", text: "Decides no usar libro de texto y la dirección te advierte de que 'las familias están nerviosas'.", img: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=500" },
+        { cat: "Polémica", text: "Se debate la brecha salarial de género y los alumnos varones se sienten atacados y se cierran al diálogo.", img: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=500" },
+        { cat: "Didáctica", text: "Un alumno con altas capacidades se aburre soberanamente con tu Situación de Aprendizaje y boicotea la clase.", img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=500" },
+        { cat: "Didáctica", text: "Fallas al explicar un concepto complejo de Climatología y un alumno te corrige públicamente con datos de AEMET.", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=500" },
+        { cat: "Polémica", text: "Un alumno trae simbología extremista en la mochila. ¿Cómo abordas la libertad de expresión vs. valores democráticos?", img: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=500" },
+        { cat: "Didáctica", text: "La conexión a internet del centro cae y tu clase de gamificación digital queda totalmente inservible.", img: "https://images.unsplash.com/photo-1594322436404-5a0526db4d13?auto=format&fit=crop&w=500" },
+
+        // --- GESTIÓN DE EMOCIONES Y CLAUSTRO (15) ---
+        { cat: "Emociones", text: "Una madre rompe a llorar en tutoría porque dice que su hijo odia tu asignatura por tu forma de evaluar.", img: "https://images.unsplash.com/photo-1541178735463-ad7996a8a1b3?auto=format&fit=crop&w=500" },
+        { cat: "Claustro", text: "Un compañero veterano te ridiculiza en la sala de profesores por usar Instagram como herramienta didáctica.", img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=500" },
+        { cat: "Emociones", text: "Un alumno estalla en ira tras recibir una nota y propina un puñetazo a la mesa frente a toda la clase.", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=500" },
+        { cat: "Claustro", text: "Te das cuenta de que hay un 'grupo de WhatsApp' de profesores donde se critica a la dirección y te invitan.", img: "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&w=500" },
+        { cat: "Emociones", text: "Sientes que el síndrome del quemado (burnout) te afecta tras una semana de conflictos constantes. ¿Cómo entras hoy a clase?", img: "https://images.unsplash.com/photo-1499209974431-9dac3adaf471?auto=format&fit=crop&w=500" },
+        { cat: "Familias", text: "Un padre abogado te amenaza con una demanda si no cambias la calificación final de su hijo.", img: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=500" },
+        { cat: "Emociones", text: "Un alumno con problemas familiares busca en ti una figura parental y empieza a ser demasiado dependiente emocionalmente.", img: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=500" },
+        { cat: "Claustro", text: "Tu jefe de departamento te asigna el peor horario y los grupos más difíciles por ser el nuevo.", img: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=500" },
+        { cat: "Familias", text: "En la reunión grupal, los padres se alían contra tu metodología de 'Aula Invertida' alegando que ellos deben dar la clase.", img: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=500" },
+        { cat: "Emociones", text: "Tras un error tuyo, pierdes la autoridad en un grupo de 4º de ESO y el clima se vuelve ingobernable.", img: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=500" },
+        { cat: "Claustro", text: "La jefa de estudios te pide que espíes a un compañero para confirmar si falta a sus horas.", img: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=500" },
+        { cat: "Familias", text: "Un grupo de WhatsApp de padres difunde mentiras sobre lo que supuestamente dijiste en clase de sexualidad.", img: "https://images.unsplash.com/photo-1556742049-d349328418ac?auto=format&fit=crop&w=500" },
+        { cat: "Emociones", text: "Una alumna te confiesa que se siente acosada por un compañero del aula. ¿Cómo intervienes emocionalmente?", img: "https://images.unsplash.com/photo-1573497620053-ea5310f94f17?auto=format&fit=crop&w=500" },
+        { cat: "Claustro", text: "En la cena de empresa, un compañero hace comentarios machistas o racistas. ¿Cómo reaccionas?", img: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=500" },
+        { cat: "Familias", text: "Unos padres te exigen que su hijo se siente solo porque no quieren que se junte con 'ciertos alumnos'.", img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=500" },
+
+        // --- SITUACIONES DE APRENDIZAJE Y OTROS (10) ---
+        { cat: "SA", text: "Diseñas una SA increíble pero el centro no tiene presupuesto para los materiales básicos necesarios.", img: "https://images.unsplash.com/photo-1532619675605-1fea6d25207b?auto=format&fit=crop&w=500" },
+        { cat: "SA", text: "A mitad de una SA basada en ABP, los alumnos pierden el interés y te piden volver a la clase magistral.", img: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=500" },
+        { cat: "SA", text: "Inspección educativa visita tu aula justo cuando estás haciendo un debate caótico pero pedagógicamente rico.", img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=500" },
+        { cat: "Normativa", text: "La nueva ley educativa cambia a mitad de curso y tu programación queda obsoleta legalmente.", img: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=500" },
+        { cat: "SA", text: "Colaboras con el profesor de Arte para una SA y él acaba haciendo todo el trabajo sin consultarte.", img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=500" },
+        { cat: "Recursos", text: "El museo local te deniega la visita gratuita que habías planificado como eje de tu SA.", img: "https://images.unsplash.com/photo-1518998053502-5388616f022d?auto=format&fit=crop&w=500" },
+        { cat: "Inclusión", text: "Tienes 5 alumnos con idiomas distintos que no hablan castellano en una clase de 30. ¿Cómo enseñas Geografía?", img: "https://images.unsplash.com/photo-1521791136364-798a7bc0d26e?auto=format&fit=crop&w=500" },
+        { cat: "SA", text: "Los alumnos logran un producto final de la SA brillante, pero no han aprendido nada de los contenidos teóricos mínimos.", img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=500" },
+        { cat: "Tecnología", text: "Propones usar Minecraft para Geografía y los padres creen que solo vas a clase a que sus hijos jueguen.", img: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=500" },
+        { cat: "Final", text: "Es fin de curso, estás agotado y tienes que corregir 150 memorias de prácticas en un fin de semana. ¿Cómo mantienes la objetividad?", img: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=500" }
     ];
 
     let currentDeck = [...masterDeck];
@@ -84,7 +126,7 @@
         const content = document.getElementById('card-content');
         
         if (currentDeck.length === 0) {
-            alert("¡Se han agotado todas las cartas! El mazo se reiniciará.");
+            alert("¡Mazo completado! Los 50 casos han sido debatidos. Reiniciando baraja...");
             currentDeck = [...masterDeck];
         }
 
@@ -92,14 +134,17 @@
         
         setTimeout(() => {
             const randomIndex = Math.floor(Math.random() * currentDeck.length);
-            const card = currentDeck.splice(randomIndex, 1)[0]; // Saca la carta y la elimina del mazo actual
+            const card = currentDeck.splice(randomIndex, 1)[0];
 
             content.innerHTML = `
                 <img src="${card.img}" class="card-img" alt="Situación">
                 <div class="card-body">
-                    <span class="badge">${card.cat}</span>
+                    <span class="badge" style="background:${getBadgeColor(card.cat)}">${card.cat}</span>
                     <p class="conflict-text">"${card.text}"</p>
-                    <div class="footer">Debate: Ética y Normativa LOMLOE</div>
+                    <div class="footer">
+                        <span>Dilema #${51 - currentDeck.length - 1}</span>
+                        <span style="font-weight:bold; color:var(--geo-blue)">¿Qué harías?</span>
+                    </div>
                 </div>
             `;
             inner.classList.add('is-flipped');
@@ -107,9 +152,21 @@
         }, 300);
     }
 
+    function getBadgeColor(cat) {
+        const colors = {
+            "Ética": "#fecaca", "Evaluación": "#fed7aa", "Didáctica": "#bfdbfe", 
+            "Polémica": "#ddd6fe", "Emociones": "#fbcfe8", "Claustro": "#fef08a",
+            "SA": "#bbf7d0", "Familias": "#e9d5ff"
+        };
+        return colors[cat] || "#e2e8f0";
+    }
+
     function flipCard() { document.getElementById('card-inner').classList.toggle('is-flipped'); }
 
-    window.onload = () => { document.getElementById('cards-left').innerText = currentDeck.length; drawCard(); };
+    window.onload = () => { 
+        document.getElementById('cards-left').innerText = currentDeck.length;
+        drawCard();
+    };
 </script>
 </body>
 </html>
